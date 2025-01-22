@@ -1,0 +1,12 @@
+<div class="search-form">
+    <h3>Filtrar por Categoria</h3>
+    <mat-checkbox [(ngModel)]="selectedCategories.acida" (change)="onCategoryChange()">
+      Acída
+    </mat-checkbox>
+    <mat-checkbox [(ngModel)]="selectedCategories.doce" (change)="onCategoryChange()">
+      Doce
+    </mat-checkbox>
+    <mat-checkbox [(ngModel)]="selectedCategories.oleaginosa" (change)="onCategoryChange()">
+      Oleaginosa
+    </mat-checkbox>
+  </div>

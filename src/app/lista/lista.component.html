@@ -1,0 +1,76 @@
+<app-pesquisar (filter)="filterfruta($event)"></app-pesquisar>
+
+<div class="container">
+    <button 
+      mat-fab 
+      color="primary" 
+      class="add-button" 
+      (click)="toggleForm()">
+      Adicionar Frutas
+    </button>
+  
+    <div class="fruta-list">
+      <mat-list>
+        <mat-list-item *ngFor="let fruta of paginatedfruta; let i = index">
+          <div class="fruta-info">
+            <div class="fruta-text">
+              <p><strong>{{ fruta.name }}</strong></p>
+              <p> Peso: {{ fruta.peso }} Preço: R$ {{ fruta.price }} Tipo: {{ fruta.tipo.join(', ') }}</p>
+              <p> Marca: {{ fruta.marca }}</p>
+            </div>
+            <div class="fruta-actions">
+              <button mat-raised-button color="accent" (click)="editfruta(i)">Editar</button>
+              <button mat-raised-button color="warn" (click)="deletefruta(i)">Apagar</button>
+            </div>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    
+      <p *ngIf="filteredfruta.length === 0">Nenhuma fruta foi encontrada.</p>
+    
+      <mat-paginator #paginator [length]="filteredfruta.length" 
+                     [pageSize]="itemsPerPage" 
+                     [pageSizeOptions]="[5]"
+                     (page)="pageChanged($event)">
+      </mat-paginator>
+    </div>
+
+    
+    <div class="form-container" *ngIf="showForm">
+      <button mat-icon-button class="close-button" (click)="toggleForm()">
+        <mat-icon>X</mat-icon>
+      </button>
+      <h2>Adicionar</h2>
+      <form (ngSubmit)="addfruta()">
+        <mat-form-field>
+          <input matInput placeholder="Nome" [(ngModel)]="formData.name" name="name" required />
+        </mat-form-field>
+  
+        <mat-form-field>
+          <textarea matInput placeholder="Peso" [(ngModel)]="formData.peso" name="peso" type="number" required></textarea>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <input matInput placeholder="Preço" [(ngModel)]="formData.price" name="price" type="number" required />
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Marca" [(ngModel)]="formData.marca" name="marca" type="string" required />
+        </mat-form-field>
+  
+        <div class="checkbox-group">
+          <h3>Selecione o tipo</h3>
+          <div *ngFor="let type of Tipofruta">
+            <mat-checkbox 
+              [checked]="formData.tipo.includes(type)" 
+              (change)="ontipoChange(type, $event.checked)">
+              {{ type }}
+            </mat-checkbox>
+          </div>
+        </div>
+  
+        <button mat-raised-button color="primary" type="submit">Adicionar Fruta</button>
+      </form>
+    </div>
+  </div>
+  
